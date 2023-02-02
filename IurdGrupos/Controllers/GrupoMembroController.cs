@@ -1,7 +1,6 @@
 ﻿using IurdGrupos.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
-//
 
 namespace IurdGrupos.Controllers
 {
