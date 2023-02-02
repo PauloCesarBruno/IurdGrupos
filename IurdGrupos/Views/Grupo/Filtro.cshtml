@@ -1,0 +1,111 @@
+﻿@model ModelGrupo
+<div class="container">
+    <h3>Filtro por nome do grupo</h3>
+    <hr />
+
+    <form asp-controller="Grupo" asp-action="Filtro">
+        <div class="form-row">
+            <div class="col col-8">
+                <input asp-for="GrupoNome" type="text" class="form-control" placeholder="Digite o nome do grupo" />
+            </div>
+            <div class="col col-4">
+                <button type="submit" class="btn btn-outline-primary"><i class="fa fa-check"></i> Buscar</button>
+            </div>            
+        </div>
+    </form>
+</div>
+
+<br />
+
+<div class="container table-responsive">
+    <div>
+        <div>
+            <table id="tblGruposfiltro" class="table-striped">
+                <thead>
+                    <tr>
+                        <td style="padding: 0px 20px 0px 20px;">Id</td>
+                        <td style="padding: 0px 20px 0px 20px;">Grupo</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @{
+                        @try
+                        {
+
+
+                            @foreach (var item in (List<ModelGrupo>)ViewBag.ListaGrupo)
+                            {
+                                <tr>
+                                    <td style="padding: 0px 20px 0px 20px; color:red">@item.Id</td>
+                                    <td style="padding: 0px 20px 0px 20px; color:blue">@item.GrupoNome</td>
+
+                                    <td style="padding: 2px;"><button type="button" class="btn btn-outline-warning btn-sm Editar" data-Id="@item.Id"><i class="fa fa-edit"></i> Editar</button> </td>
+                                    <td style="padding: 2px;"><button type="button" class="btn btn-outline-danger btn-sm Excluir" data-Id="@item.Id"><i class="fa fa-eraser"></i> Excluir</button></td>
+                                </tr>
+                            }
+                        }
+                        catch
+                        {
+                            //
+                        }
+                    }
+                </tbody>
+            </table>
+            <div class="modal" id="modal">
+
+            </div>
+
+            @section scripts{
+                <script>
+                    $(function () {
+                        $(".Editar").click(function () {
+                            var id = $(this).attr("data-id");
+                            $("#modal").load("Cadastro?id=" + id, function () {
+                                $("#modal").modal();
+                            })
+                        });
+                    })
+
+                    $(function () {
+                        $(".Excluir").click(function () {
+                            var id = $(this).attr("data-id");
+                            $("#modal").load("Excluir?id=" + id, function () {
+                                $("#modal").modal();
+                            })
+                        });
+                    })
+
+                    $(document).ready(function () {
+                        $('#tblGruposfiltro').DataTable({
+                            language: {
+                                url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Portuguese-Brasil.json'
+                            }
+                        });
+                    });
+
+                </script>
+            }
+
+            <hr />
+
+            <div>
+                <button type="button" class=" btn btn-outline-dark btn-sm" onclick="Voltar()"> <i class="fa fa-step-backward"></i> Voltar</button>
+            </div>
+
+            <div style="margin-top: 20px">
+                <hr />
+                <p>@DateTime.Now.Year - IURD - Grupos e Membros - Por Paulo Bruno &reg;</p>
+            </div>
+
+            <script>
+
+                function Voltar() {
+                    window.location.href = '../Grupo/Index';
+                }
+
+            </script>
+        </div>
+    </div>
